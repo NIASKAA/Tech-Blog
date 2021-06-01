@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Tech-Blog</title>
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body>
+  <div>
+    <header>
+      <h1 class="nav-item">
+        <a class="nav-link" href="/">Your Tech-Blog</a>
+      </h1>
+      <h3 class="nav-item">
+        {{#if loggedIn}}
+          <a class="nav-link" href="/dashboard">Your Dashboard</a>
+      </h3>
+      <nav class="nav-link">
+         <button id="logout" class="nav-link active">logout</button>
+        {{else}}
+         <a class="nav-link" href="/login">login</a>
+        {{/if}}
+      </nav>
+    </header>
+    <main class="main-body">
+      {{{ body }}}
+    </main>
+  </div>
+
+  {{#if loggedIn}}
+  <script src="/javascript/logout.js"></script>
+  {{/if}}
+
+</body>
+
+</html>
