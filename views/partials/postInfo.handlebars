@@ -1,17 +1,7 @@
-<article class="post">
-    <div class="whole-post">
-        <div class="info-section">
-            <div class="post-name">
-                <a href="/post/{{id}}" class="links">{{title}}</a>
-            </div>
-            <div class="created-by">
-                <p id="comment-subtitle">
-                    Posted by <b>{{user.username}} </b> on <b>{{format_date created_at}}</b>
-                </p>
-            </div>
-        </div>
-        <div class="content-section">
-            <p>{{content}}</p>
-        </div>
+<div class="card">
+    <div class="card-header">
+       <h4><a class="link" href="/post/{{id}}">{{title}}</a></h4>
+        <p>Posted by {{user.username}} on {{format_date created_at}}</p>
     </div>
-</article>
+        <p class="card-body">{{content}}</p>
+</div>
