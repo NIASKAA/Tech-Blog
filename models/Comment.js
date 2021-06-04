@@ -31,13 +31,15 @@ Comment.init(
             validate: {
                 len: [3],
             }
-        },
+        }
+    },
+    {
         sequelize,
         freezeTableName: true,
         underscored: true,
         modelName: 'comment'
     }
 
-)
+);
 
 module.exports = Comment;

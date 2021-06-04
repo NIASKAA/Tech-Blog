@@ -18,16 +18,25 @@ router.get('/:id', withAuth, (req, res) => {
         }
     })
     .then(commentData => res.json(commentData))
-    .catch((error) => {
+    .catch(error => {
         console.log(error);
         res.status(500).json(error);
     });
 });
 
 router.post('/', withAuth, (req, res) => {
-    Comment.create({
-        
-    })
+    if(req.session){
+        Comment.create({
+            userID: req.session.userID,
+            post_id: req.session.post_id,
+            comment_text: req.body.comment_text,
+        })
+        .then(commentData => res.json(commentData))
+        .then(error => {
+            console.log(error);
+            res.status(500).json(error);
+        })
+    }
 });
 
 router.put('/:id', withAuth, (req, res) => {

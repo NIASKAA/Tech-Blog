@@ -28,12 +28,15 @@ Post.init(
                 model: 'user',
                 key: 'id'
             }
-        },
-       sequelize,
-       freezeTableName: true,
-       underscored: true,
-       modelName: 'post' 
+        }
+    },
+    {
+        sequelize,
+        freezeTableName: true,
+        underscored: true,
+        modelName: 'post' 
+
     }
-)
+);
 
 module.exports = Post;
