@@ -6,12 +6,12 @@ const withAuth = require('../utils/auth');
 router.get('/', withAuth, (req, res) => {
     Post.findAll({
         where: {
-            userId: req.session.userId
+            userID: req.session.userID
         },
         attributes: [
             'id',
-            'title',
             'content',
+            'title',
             'created_at'
         ],
         include: [{
@@ -25,17 +25,17 @@ router.get('/', withAuth, (req, res) => {
             ],
             include: {
                 model: User,
-                attributes: [username]
+                attributes: ['username']
             }
         },
         {
             model: User,
-            attributes: [username]
+            attributes: ['username']
         }]
     })
     .then(postData => {
-        const post = postData.map(post => post.get({plain: true}));
-        res.render('dashboard', {post, loggedIn: req.session.loggedIn});
+        const posts = postData.map(post => post.get({plain: true}));
+        res.render('dashboard', {posts, loggedIn: true });
     })
     .catch(error => {
         console.log(error);
@@ -44,9 +44,9 @@ router.get('/', withAuth, (req, res) => {
 });
 
 router.get('/edit/:id', withAuth, (req, res) => {
-    Post.findAll({
+    Post.findOne({
         where: {
-            userId: req.session.userId
+            userID: req.session.userID
         },
         attributes: [
             'id',
@@ -54,33 +54,29 @@ router.get('/edit/:id', withAuth, (req, res) => {
             'content',
             'created_at'
         ],
-        include: {
-            model: User,
-            attributes: [username]
-        },
-        attributes: [{
-            model: Comment,
-            attributes: [
-                'id',
-                'post_id',
-                'userID',
-                'comment_text',
-                'created_at'
-            ],
-            include: {
+        include: [
+            {
+                model: Comment,
+                attributes: [
+                    'id',
+                    'post_id',
+                    'userID',
+                    'content',
+                    'created_at'
+                ],
+                include: {
+                    model: User,
+                    attributes: ['username']
+                }
+            },
+            {
                 model: User,
-                attributes: [username]
-            }
-        }]
+                attributes: ['username']
+            }]
     })
     .then(postData => {
-        if(!postData) {
-            res.status(404).json({message: 'No post found with id'});
-            return;
-        }
         const post = postData.get({plain: true});
-        console.log(post);
-        res.render('post-edit', {post, loggedIn: req.session.loggedIn});
+        res.render('editPost', {post, loggedIn: true });
     })
     .catch(error => {
         console.log(error);

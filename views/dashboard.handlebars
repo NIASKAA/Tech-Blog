@@ -8,7 +8,7 @@
       </div>
       <div>
          <label for="post-url">Write Something</label>
-         <input type="text" id="post-url" name="post-url" />
+         <input type="text" id="content" name="content" />
       </div>
       <button type="submit" class="btn">Create</button>
    </form>
@@ -21,7 +21,7 @@
       <ol>
       {{#each posts as |post|}}
          <li>
-            {{> post-info post }}
+            {{> postInfo post }}
             <button class="edit">
                <a href="/dashboard/edit/{{post.id}}">Edit post</a>
             </button>

@@ -59,6 +59,7 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
     User.create({
         username: req.body.username,
+        email: req.body.email,
         password: req.body.password
     })
     .then(userData => {
@@ -78,7 +79,7 @@ router.post('/', (req, res) => {
 router.post('/login', (req, res) => {
     User.findOne({
         where: {
-            username: req.body.username,
+            email: req.body.email
         },
     })
     .then(userData => {
@@ -97,14 +98,10 @@ router.post('/login', (req, res) => {
             req.session.loggedIn = true;
             res.json({user: userData, message: 'Logged in successfully'});
         });
-    })
-    .catch(error => {
-        console.log(error);
-        res.status(500).json(error);
     });
 });
 
-router.post('/logout', (req, res) => {
+router.post('/logout', withAuth, (req, res) => {
     if(req.session.loggedIn) {
         req.session.destroy(() => {
             res.status(204).end();
@@ -114,7 +111,7 @@ router.post('/logout', (req, res) => {
     }
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', withAuth, (req, res) => {
     User.update(req.body, {
         individualHooks: true,
         where: {

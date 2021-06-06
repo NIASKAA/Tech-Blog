@@ -1,8 +1,7 @@
-async function newFormHandlder(event) {
+async function newFormHandler(event) {
     event.preventDefault();
 
     const title = document.querySelector('input[name="post-title]').value;
-    const post_content = document.querySelector('input[name="post-content]').value;
     const id = window.location.toString().split('/')[
         window.location.toString().split('/').length - 1
     ];
@@ -11,10 +10,9 @@ async function newFormHandlder(event) {
         method: 'PUT',
         body: JSON.stringify({
             title,
-            post_content
         }),
         headers: {
-            'content-Type': 'application/json'
+            'Content-Type': 'application/json'
         }
     });
 
@@ -25,4 +23,4 @@ async function newFormHandlder(event) {
     }
 }
 
-document.querySelector('edit-post-form').addEventListener('submit', newFormHandlder)
+document.querySelector('.edit-post-form').addEventListener('submit', newFormHandler)

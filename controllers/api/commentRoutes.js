@@ -11,57 +11,35 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:id', withAuth, (req, res) => {
+router.get('/:id', (req, res) => {
     Comment.findAll({
         where: {
-            post_id: req.session.post_id,
+            post_id: req.params.id
         }
     })
     .then(commentData => res.json(commentData))
     .catch(error => {
         console.log(error);
-        res.status(500).json(error);
+        res.status(400).json(error);
     });
 });
 
 router.post('/', withAuth, (req, res) => {
     if(req.session){
         Comment.create({
-            userID: req.session.userID,
-            post_id: req.session.post_id,
             comment_text: req.body.comment_text,
+            post_id: req.body.post_id,
+            userID: req.session.userID,
         })
         .then(commentData => res.json(commentData))
         .then(error => {
             console.log(error);
-            res.status(500).json(error);
+            res.status(400).json(error);
         })
     }
 });
 
-router.put('/:id', withAuth, (req, res) => {
-    Comment.update({
-        post_id: req.body.post_id,
-    },
-    {
-        where: {
-            id: req.params.id,
-        },
-    })
-    .then(commentData => {
-        if(!commentData) {
-            res.status(404).json({message: 'Comment with id not found'});
-            return;
-        }
-        res.json(commentData);
-    })
-    .catch(error => {
-        console.log(error);
-        res.status(500).json(error);
-    });
-});
-
-router.delete('/:id', withAuth, (req, res) => {
+router.delete('/:id', (req, res) => {
     Comment.destroy({
         where: {
             id: req.params.id,

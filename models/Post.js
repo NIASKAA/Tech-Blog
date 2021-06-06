@@ -17,7 +17,10 @@ Post.init(
         },
         content: {
             type: DataTypes.TEXT,
-            allowNull: false,
+            allowNull: true,
+            validate: {
+                len: [3]
+            }
         },
         userID: {
             type: DataTypes.INTEGER,
@@ -32,7 +35,6 @@ Post.init(
         freezeTableName: true,
         underscored: true,
         modelName: 'post' 
-
     }
 );
 

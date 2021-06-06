@@ -1,7 +1,18 @@
-<div class="card">
+<article class="post">
+  <div class="title card">
     <div class="card-header">
-       <h4><a class="link" href="/post/{{id}}">{{title}}</a></h4>
-        <p>Posted by {{user.username}} on {{format_date created_at}}</p>
+      <h3 class="card-title">{{title}}</h3>
     </div>
-        <p class="card-body">{{content}}</p>
-</div>
+    <div class="card-body">
+      <p class="card-text ">{{content}}</p>
+    </div>
+    
+    <div class="meta card-footer">
+      By {{user.username}} on {{format_date created_at}}
+      |
+      <a class="card-footer" href="/post/{{id}}">{{comments.length}}</a>
+      
+    </div>
+
+  </div>
+</article>

@@ -3,12 +3,12 @@ const sequelize = require('../../config/connection');
 const {Post, User, Comment} = require('../../models');
 const withAuth = require('../../utils/auth');
 
-router.get('/', withAuth, (req, res) => {
+router.get('/', (req, res) => {
     Post.findAll({
         attributes: [
             'id',
-            'title',
             'content',
+            'title',
             'created_at',
         ],
         order: [
@@ -18,22 +18,22 @@ router.get('/', withAuth, (req, res) => {
             model: Comment,
             attributes: [
                 'id',
+                'comment_text',
                 'post_id',
                 'userID',
-                'comment_text',
                 'created_at'
             ],
             include: {
                 model: User,
-                attributes: [username]
-            } 
+                attributes: ['username']
+            }
         },
         {
             model: User,
-            attributes: [username]
+            attributes: ['username']
         }]
     })
-    .then(postData => res.json(postData.reverse()))
+    .then(postData => res.json(postData))
     .catch(error => {
         console.log(error);
         res.status(500).json(error);
@@ -47,28 +47,29 @@ router.get('/:id', (req, res) => {
         },
         attributes: [
             'id',
-            'title',
             'content',
-            'created_at'
+            'title',
+            'created_at',
         ],
-        include: [{
-            model: User,
-            attributes: [username]
-        },
-        {
-            model: Comment,
-            attributes: [
-                'id',
-                'userID',
-                'post_id',
-                'comment_text',
-                'created_at'
-            ],
-            include: {
+        include:[
+            { 
+                model: Comment,
+                attributes: [
+                    'id',
+                    'comment_text',
+                    'post_id',
+                    'userID',
+                    'created_at'
+                ],
+                include: {
+                    model: User,
+                    attributes: ['username']
+                }
+            },
+            {
                 model: User,
-                attributes: [username]
-            }
-        }]
+                attributes: ['username']
+            }]
     })
     .then(postData => {
         if(!postData) {
@@ -85,9 +86,9 @@ router.get('/:id', (req, res) => {
 
 router.post('/', withAuth, (req, res) => {
     Post.create({
-        userID: req.session.userID,
         title: req.body.title,
-        content: req.body.content
+        content: req.body.content,
+        userID: req.session.userID
     })
     .then(postData => res.json(postData))
     .catch(error => {
@@ -99,7 +100,6 @@ router.post('/', withAuth, (req, res) => {
 router.put('/:id', withAuth, (req, res) => {
     Post.update({
         title: req.body.title,
-        content: req.body.content
     },
     {
         where: {
@@ -119,7 +119,7 @@ router.put('/:id', withAuth, (req, res) => {
     });
 });
 
-router.delete('/:id', withAuth, (req, res) => {
+router.delete('/:id', (req, res) => {
     Post.destroy({
         where: {
             id: req.params.id,

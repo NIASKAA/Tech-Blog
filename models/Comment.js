@@ -9,13 +9,6 @@ Comment.init(
             primaryKey: true,
             autoIncrement: true,
         },
-        comment_text: {
-            type: DataTypes.TEXT,
-            allowNull: false,
-            validate: {
-                len: [3],
-            }
-        },
         userID: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -30,6 +23,13 @@ Comment.init(
             references: {
                 model: 'post',
                 key: 'id'
+            }
+        },
+        comment_text: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+            validate: {
+                len: [1],
             }
         },
     },

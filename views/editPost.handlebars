@@ -1,14 +1,26 @@
-<div class="card">
-    <h3 class="card-header">Edit Post</h3>
-    <form class="card-body edit-post-form">
-        <label for="post-title" class="form-label">Title</label>
-        <input name="post-title" type="text" value="{{post.title}}" class="form-input" />
-        <label class="form-label" for="content">Content</label>
-        <input name="content" type="text" value="{{post.content}}" class="form-input" />
-        <button type="submit" class="btn">Update Post</button>
-        <button type="button" class="deleteBtn btn">Delete Post</button>
-    </form>
-</div>
+<article>
+  <a href="/dashboard" class="is-pulled-right">back to dashboard</a>
+  <h2 class="title mt-5">Edit Post</h2><hr>
+  <form class="edit-post-form">
+    <div>
+        <label for="post-title">Post Title:</label>
+      <input class="input" name="post-title" type="text" value="{{post.title}}" />
+    </div>
+    <div>
+        <label for="post-content">Post content:</label>
+      <input class="textarea" name="post-content" type="text" value="{{post.post_content}}" />
+    </div>
+    <div class="is-pulled-right">
+       created on {{format_date post.created_at}}
+      |
+      <a href="/post/{{post.id}}">{{post.comments.length}}</a>
+    </div>
+    <button type="submit" class="button is-success">Save post</button>
+    <button type="button" class="button is-danger deleteBtn">Delete post</button>
+  </form>
+</article>
+
+{{> comments post.comments}}
 
 <script src="/public/js/addPost.js"></script>
 <script src="/public/js/editPost.js"></script>
